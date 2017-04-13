@@ -20,6 +20,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     private let authorizeEndpoint = "oauth/authorize"
     private let authorizeTokenParameter = "?oauth_token="
     
+    private let homeTimeLineEndpoint = "1.1/statuses/home_timeline.json"
     
     static let sharedInstance = TwitterClient(baseURL: URL(string: baseStringURL), consumerKey: clientID, consumerSecret: clientSecret)
    
@@ -61,6 +62,22 @@ class TwitterClient: BDBOAuth1SessionManager {
             print("error: \(error?.localizedDescription)")
             
             self.loginFailure!(error!)
+        }
+    }
+    
+    func currentAccount(success: (User)-> (), failure: (Error) -> ()) {
+        
+    }
+    
+    func homeTimeLine(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        get(homeTimeLineEndpoint, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+        
+            let tweets = Tweet.tweetsWithArray(dictionaries: response as! [NSDictionary])
+            success(tweets)
+            
+       }) { (task: URLSessionDataTask?, error: Error) in
+        
+        failure(error)
         }
     }
 }

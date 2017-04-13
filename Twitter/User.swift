@@ -16,7 +16,7 @@ class User: NSObject {
     var tagline: String?
     
     init(dictionary: NSDictionary) {
-    
+        
         name = dictionary["name"] as? String
         screenName = dictionary["screen_name"] as? String
         if let profileUrlString = dictionary["profile_image_url_https"] as? String {
