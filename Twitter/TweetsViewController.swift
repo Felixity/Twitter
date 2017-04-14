@@ -31,6 +31,11 @@ class TweetsViewController: UIViewController {
             print(error.localizedDescription)
         })
     }
+    
+    @IBAction func onLogout(_ sender: UIBarButtonItem) {
+        TwitterClient.sharedInstance?.logout()
+    }
+    
 }
 
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {

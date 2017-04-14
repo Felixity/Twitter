@@ -10,6 +10,7 @@ import UIKit
 
 class User: NSObject {
     
+    static let didLogOutNotification = "UserLoggedOut"
     private static let currentUserDataKey = "currentUserData"
     
     var name: String? {

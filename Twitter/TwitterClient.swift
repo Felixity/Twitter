@@ -52,6 +52,14 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func logout() {
+        User.currentUser = nil
+        deauthorize()
+        
+        // Go back to the Login window
+        NotificationCenter.default.post(name: NSNotification.Name(User.didLogOutNotification), object: nil)
+    }
+    
     func handleOpenURL(url: URL) {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
         // Send a request to the server to create a new access token

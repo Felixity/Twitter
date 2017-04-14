@@ -122,7 +122,13 @@
                             <constraint firstItem="NUO-0v-pYY" firstAttribute="top" secondItem="8Ok-mp-tc3" secondAttribute="bottom" id="vXp-L6-DUI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="7fC-uF-FGN"/>
+                    <navigationItem key="navigationItem" id="7fC-uF-FGN">
+                        <barButtonItem key="leftBarButtonItem" title="Sign out" id="MqT-id-rf7">
+                            <connections>
+                                <action selector="onLogout:" destination="2S7-bn-idX" id="4D2-BT-pK6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="8Ok-mp-tc3" id="5do-6S-BSJ"/>
                     </connections>
