@@ -39,10 +39,15 @@ class TweetTableViewCell: UITableViewCell {
                 usernameLabel.text = username
             }
             if let timestamp = tweet.timestamp {
-                print("timestamp: \(timestamp)")
-                let formatter = DateFormatter()
-                formatter.dateFormat = "MMM dd"
-                timestampLabel.text = formatter.string(from: timestamp)
+                let elapsedTimeInSec = timestamp.timeIntervalSinceNow
+                
+                // Display the elapsed time in other format than seconds: minutes, hours, days or month and day
+                let formatter = DateComponentsFormatter()
+                formatter.maximumUnitCount = 1
+                formatter.unitsStyle = .abbreviated
+                formatter.allowedUnits = [.calendar, .day, .hour, .minute, .second]
+                
+                timestampLabel.text = formatter.string(from: elapsedTimeInSec)
             }
             tweetTextLabel.text = tweet.text
         }
