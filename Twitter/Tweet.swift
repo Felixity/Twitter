@@ -9,31 +9,49 @@
 import UIKit
 
 class Tweet: NSObject {
-    var profileImageURL: URL?
-    var username: String?
-    var text: String?
-    var timestamp: Date?
-    var retweetCount: Int = 0
-    var favoritesCount: Int = 0
+    
+    var profileImageURL: URL? {
+        guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
+            return nil
+        }
+        guard let profileImageStringURL = user["profile_image_url"] as? String else {
+            return nil
+        }
+        return URL(string: profileImageStringURL)
+    }
+    
+    var username: String? {
+        guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
+            return nil
+        }
+        return user["name"] as? String
+    }
+    
+    var text: String? {
+        return dictionary["text"] as? String
+    }
+    
+    var timestamp: Date? {
+        guard let timestampString = dictionary["created_at"] as? String else {
+            return nil
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+        return formatter.date(from: timestampString)
+    }
+    
+    var retweetCount: Int {
+        return (dictionary["retweet_count"] as? Int) ?? 0
+    }
+    
+    var favoritesCount: Int {
+        return (dictionary["favourites_count"] as? Int) ?? 0
+    }
+    
+    private var dictionary: NSDictionary
     
     init(dictionary: NSDictionary) {
-        
-        if let user = dictionary.value(forKeyPath: "user") as? NSDictionary {
-            if let profileImageStringURL = user["profile_image_url"] as? String {
-                profileImageURL = URL(string: profileImageStringURL)
-            }
-            username = user["name"] as? String
-        }
-        text = dictionary["text"] as? String
-        
-        if let timestampString = dictionary["created_at"] as? String {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
-            timestamp = formatter.date(from: timestampString)
-        }
-        
-        retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
+        self.dictionary = dictionary
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet]{

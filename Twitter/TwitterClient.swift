@@ -21,6 +21,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     private let authorizeTokenParameter = "?oauth_token="
     
     private let homeTimeLineEndpoint = "1.1/statuses/home_timeline.json"
+    private let currentAccountEndpoint = "1.1/account/verify_credentials.json"
     
     static let sharedInstance = TwitterClient(baseURL: URL(string: baseStringURL), consumerKey: clientID, consumerSecret: clientSecret)
    
@@ -56,28 +57,45 @@ class TwitterClient: BDBOAuth1SessionManager {
         // Send a request to the server to create a new access token
         fetchAccessToken(withPath: accessTokenEndpoint, method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential?) in
             
-            self.loginSuccess!()
+            // fetch and store the current user's account
+            self.currentAccount(success: { (user: User) in
+                
+                User.currentUser = user
+                self.loginSuccess!()
+                
+            }, failure: { (error: Error) in
+                self.loginFailure!(error)
+                
+            })
             
         }) { (error: Error?) in
             print("error: \(error?.localizedDescription)")
-            
             self.loginFailure!(error!)
+            
         }
     }
     
-    func currentAccount(success: (User)-> (), failure: (Error) -> ()) {
-        
+    func currentAccount(success: @escaping (User)-> (), failure: @escaping (Error) -> ()) {
+        get(currentAccountEndpoint, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+            let user = User(dictionary: response as! NSDictionary)
+            success(user)
+            
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+            
+        })
     }
     
     func homeTimeLine(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         get(homeTimeLineEndpoint, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
-        
+            
             let tweets = Tweet.tweetsWithArray(dictionaries: response as! [NSDictionary])
             success(tweets)
             
-       }) { (task: URLSessionDataTask?, error: Error) in
-        
-        failure(error)
+        }) { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+            
         }
     }
 }
