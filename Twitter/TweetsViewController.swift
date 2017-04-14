@@ -24,6 +24,8 @@ class TweetsViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
         
+        setupRefreshControl()
+        
         TwitterClient.sharedInstance?.homeTimeLine(success: { (tweetsResponse: [Tweet]) in
             self.tweets = tweetsResponse
             self.tableView.reloadData()
@@ -36,6 +38,33 @@ class TweetsViewController: UIViewController {
         TwitterClient.sharedInstance?.logout()
     }
     
+    private func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        
+        // Add an action for the refresh control
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
+        
+        // Add refresh controll to the table view
+        tableView.insertSubview(refreshControl, at: 0)
+    }
+    
+    @objc private func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        TwitterClient.sharedInstance?.homeTimeLine(success: { (tweetsResponse: [Tweet]) in
+            
+            self.tweets = tweetsResponse
+            self.tableView.reloadData()
+            
+            // Tell refresh control to end refreshing
+            refreshControl.endRefreshing()
+            
+        }, failure: { (error: Error) in
+            
+            // Tell refresh control to end refreshing
+            refreshControl.endRefreshing()
+            
+            print(error.localizedDescription)
+        })
+    }
 }
 
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
