@@ -7,29 +7,68 @@
 //
 
 import UIKit
+import AFNetworking
+
+protocol ComposeTweetViewControllerDelegate {
+    func composeTweetViewController(composeTweetViewController: ComposeTweetViewController, didUpdateTweets tweet: Tweet)
+}
 
 class ComposeTweetViewController: UIViewController {
 
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var tweetMessageTextView: UITextView!
+    
+    var newTweetMessage: String?
+    var delegate: ComposeTweetViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        tweetMessageTextView.becomeFirstResponder()
+        tweetMessageTextView.delegate = self
+        
+        if let profileImageUrl = User.currentUser?.profileURL {
+            profileImageView.setImageWith(profileImageUrl)
+        }
+        
+        usernameLabel.text = User.currentUser?.name
+        screenNameLabel.text = User.currentUser?.screenName
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func onCancel(_ sender: UIBarButtonItem) {
+        tweetMessageTextView.resignFirstResponder()
+        self.dismiss(animated: true, completion: nil)
     }
-    */
+    
+    
+    @IBAction func onTwet(_ sender: UIBarButtonItem) {
+        
+        tweetMessageTextView.resignFirstResponder()
+        
+        if let newTweetMessage = newTweetMessage {
+            
+            // Post the new tweet om Twitter
+            TwitterClient.sharedInstance?.createNewTweet(withMessage: newTweetMessage, success: { (tweet: Tweet) in
+                
+                self.delegate?.composeTweetViewController(composeTweetViewController: self, didUpdateTweets: tweet)
+                
+            }, failure: { (error: Error) in
+                print(error.localizedDescription)
+            })
+            
+        }
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+}
 
+extension ComposeTweetViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        newTweetMessage = textView.text
+        print("\(newTweetMessage)")
+    }
 }

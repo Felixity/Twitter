@@ -22,6 +22,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     private let homeTimeLineEndpoint = "1.1/statuses/home_timeline.json"
     private let currentAccountEndpoint = "1.1/account/verify_credentials.json"
+    private let createNewTweetEndpoint = "1.1/statuses/update.json"
     
     static let sharedInstance = TwitterClient(baseURL: URL(string: baseStringURL), consumerKey: clientID, consumerSecret: clientSecret)
    
@@ -100,6 +101,19 @@ class TwitterClient: BDBOAuth1SessionManager {
             
             let tweets = Tweet.tweetsWithArray(dictionaries: response as! [NSDictionary])
             success(tweets)
+            
+        }) { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+            
+        }
+    }
+    
+    func createNewTweet(withMessage text: String, success: @escaping (Tweet) -> () , failure: @escaping (Error) -> ()) {
+        let param: [String: Any] = ["status": text]
+        post(createNewTweetEndpoint, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            success(tweet)
             
         }) { (task: URLSessionDataTask?, error: Error) in
             failure(error)

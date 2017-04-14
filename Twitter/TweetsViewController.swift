@@ -65,6 +65,14 @@ class TweetsViewController: UIViewController {
             print(error.localizedDescription)
         })
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navigationController = segue.destination as? UINavigationController
+        if let destinationVC = navigationController?.topViewController as? ComposeTweetViewController {
+            destinationVC.delegate = self
+        }
+        
+    }
 }
 
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -77,5 +85,13 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetTableViewCell
         cell.tweet = tweets[indexPath.row]
         return cell
+    }
+}
+
+extension TweetsViewController: ComposeTweetViewControllerDelegate {
+    func composeTweetViewController(composeTweetViewController: ComposeTweetViewController, didUpdateTweets tweet: Tweet) {
+        // The new posted tweet must be insterted in the first position, so that it is visible in the table view, on top of the old tweets
+        tweets.insert(tweet, at: 0)
+        tableView.reloadData()
     }
 }
