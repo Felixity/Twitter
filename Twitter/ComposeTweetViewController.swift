@@ -23,18 +23,18 @@ class ComposeTweetViewController: UIViewController {
     var newTweetMessage: String?
     var delegate: ComposeTweetViewControllerDelegate?
     
+    var countDownBarItem: UIBarButtonItem!
+    let tweetCharactersLimit = 140
+    var nbOfRemainingCharacters = 140
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tweetMessageTextView.becomeFirstResponder()
         tweetMessageTextView.delegate = self
         
-        if let profileImageUrl = User.currentUser?.profileURL {
-            profileImageView.setImageWith(profileImageUrl)
-        }
-        
-        usernameLabel.text = User.currentUser?.name
-        screenNameLabel.text = User.currentUser?.screenName
+        setupCountDownBarItem()
+        setupUI()
     }
     
     @IBAction func onCancel(_ sender: UIBarButtonItem) {
@@ -63,12 +63,34 @@ class ComposeTweetViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    private func setupUI() {
+        if let profileImageUrl = User.currentUser?.profileURL {
+            profileImageView.setImageWith(profileImageUrl)
+        }
+        
+        usernameLabel.text = User.currentUser?.name
+        screenNameLabel.text = User.currentUser?.screenName
+    }
     
+    private func setupCountDownBarItem() {
+        countDownBarItem = UIBarButtonItem(title: "\(tweetCharactersLimit)", style: UIBarButtonItemStyle.done, target: nil, action: nil)
+        navigationItem.rightBarButtonItems?.append(countDownBarItem)
+    }
 }
 
 extension ComposeTweetViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         newTweetMessage = textView.text
-        print("\(newTweetMessage)")
+        
+        if let nbOfAddedCharacters = newTweetMessage?.characters.count {
+            nbOfRemainingCharacters = tweetCharactersLimit - nbOfAddedCharacters
+            
+            // Update the countDown item with the new value
+            countDownBarItem.title = "\(nbOfRemainingCharacters)"
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return text.characters.count <= nbOfRemainingCharacters
     }
 }
