@@ -45,7 +45,7 @@ class Tweet: NSObject {
     }
     
     var favoritesCount: Int {
-        return (dictionary["favourites_count"] as? Int) ?? 0
+        return (dictionary["favorite_count"] as? Int) ?? 0
     }
     
     var screenName: String? {
@@ -57,6 +57,10 @@ class Tweet: NSObject {
     
     var retweetedBy: String? {    
         return nil
+    }
+    
+    var id: NSNumber? {
+        return dictionary["id"] as? NSNumber
     }
     
     private var dictionary: NSDictionary

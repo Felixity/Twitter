@@ -32,7 +32,6 @@ class TweetTableViewCell: UITableViewCell {
         
         if let tweet = tweet {
             if let url = tweet.profileImageURL {
-                print("url: \(url)")
                 profileImageView.setImageWith(url)
             }
             if let username = tweet.username {

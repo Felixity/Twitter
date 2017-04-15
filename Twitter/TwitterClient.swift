@@ -23,6 +23,8 @@ class TwitterClient: BDBOAuth1SessionManager {
     private let homeTimeLineEndpoint = "1.1/statuses/home_timeline.json"
     private let currentAccountEndpoint = "1.1/account/verify_credentials.json"
     private let createNewTweetEndpoint = "1.1/statuses/update.json"
+    private let retweetEndpoint = "1.1/statuses/retweet/:id.json"
+    private let markAsFavoriteEndpoint = "1.1/favorites/create.json"
     
     static let sharedInstance = TwitterClient(baseURL: URL(string: baseStringURL), consumerKey: clientID, consumerSecret: clientSecret)
    
@@ -48,7 +50,7 @@ class TwitterClient: BDBOAuth1SessionManager {
             
         }, failure: { (error: Error?) in
             self.loginFailure?(error!)
-            print("Error: \(error?.localizedDescription)")
+            print("error: \(error?.localizedDescription)")
             
         })
     }
@@ -118,6 +120,31 @@ class TwitterClient: BDBOAuth1SessionManager {
         }) { (task: URLSessionDataTask?, error: Error) in
             failure(error)
             
+        }
+    }
+    
+    func retweeting(withID id: NSNumber, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        let retweetingEndpoint = retweetEndpoint.replacingOccurrences(of: ":id", with: "\(id)")
+        let param: [String: Any] = ["id": id]
+        post(retweetingEndpoint, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            success(tweet)
+            
+        }) { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        }
+    }
+    
+    func markAsFavorite(withID id: NSNumber, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        let param: [String: Any] = ["id": id]
+        post(markAsFavoriteEndpoint, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            success(tweet)
+            
+        }) { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
         }
     }
 }

@@ -20,24 +20,52 @@ class TweetDetailsViewController: UIViewController {
     @IBOutlet weak var retweetsCountLabel: UILabel!
     @IBOutlet weak var favoritesCountLabel: UILabel!
     
-    var tweet: Tweet?
+    var tweet: Tweet? {
+        didSet {
+            updateUI()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
+        updateUI()
     }
 
     @IBAction func onReply(_ sender: UIButton) {
     }
     
     @IBAction func onRetweet(_ sender: UIButton) {
+        if let id = tweet?.id {
+            TwitterClient.sharedInstance?.retweeting(withID: id, success: { (tweet: Tweet) in
+
+                // Update tweet's data
+                self.tweet = tweet
+                
+            }, failure: { (error: Error) in
+                print(error.localizedDescription)
+            })
+        }
     }
     
     @IBAction func onFavorite(_ sender: UIButton) {
+        if let id = tweet?.id {
+            TwitterClient.sharedInstance?.markAsFavorite(withID: id, success: { (tweet: Tweet) in
+                
+                // Update tweet's data
+                self.tweet = tweet
+                
+            }, failure: { (error: Error) in
+                print(error.localizedDescription)
+            })
+        }
     }
     
-    private func setupUI() {
+    private func updateUI() {
+        if viewIfLoaded == nil {
+            return
+        }
+        
         if let tweet = tweet {
             if let url = tweet.profileImageURL {
                 profileImageView.setImageWith(url)
