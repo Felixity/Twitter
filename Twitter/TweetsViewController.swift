@@ -71,8 +71,18 @@ class TweetsViewController: UIViewController {
         if let destinationVC = navigationController?.topViewController as? ComposeTweetViewController {
             destinationVC.delegate = self
         }
-        
+        if let destinationVC = navigationController?.topViewController as? TweetDetailsViewController {
+            let index = tableView.indexPath(for: sender as! TweetTableViewCell)
+            destinationVC.tweet = tweets[(index?.row)!]
+        }
     }
+    
+    @IBAction func onBackUnwindToTweetsViewController(segue: UIStoryboardSegue) {
+    }
+    
+    @IBAction func onReplyUnwindToTweetsViewController(segue: UIStoryboardSegue) {
+    }
+    
 }
 
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -85,6 +95,10 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetTableViewCell
         cell.tweet = tweets[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

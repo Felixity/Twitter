@@ -48,10 +48,23 @@ class Tweet: NSObject {
         return (dictionary["favourites_count"] as? Int) ?? 0
     }
     
+    var screenName: String? {
+        guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
+            return nil
+        }
+        return user["screen_name"] as? String
+    }
+    
+    var retweetedBy: String? {    
+        return nil
+    }
+    
     private var dictionary: NSDictionary
     
     init(dictionary: NSDictionary) {
         self.dictionary = dictionary
+        
+        print("tweet: \(dictionary)")
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet]{
