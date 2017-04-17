@@ -22,16 +22,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14X-Qt-ORe">
-                                <rect key="frame" x="124" y="318" width="126" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Log in with Twitter"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14X-Qt-ORe">
+                                <rect key="frame" x="50" y="302" width="275" height="62"/>
+                                <state key="normal" image="ButtonTwitterNormal"/>
                                 <connections>
                                     <action selector="onLoginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2a6-eD-S8j"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="14X-Qt-ORe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Lny-Vo-zWI"/>
+                            <constraint firstItem="14X-Qt-ORe" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="tda-HX-JSW"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="KHT-fr-wmR" kind="presentation" identifier="loginSegue" id="2F0-SK-M5m"/>
@@ -39,6 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="32.799999999999997" y="82.3088455772114"/>
         </scene>
         <!--Home-->
         <scene sceneID="tRk-Im-NE1">
@@ -326,29 +330,29 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6pJ-Eq-D3K">
-                                <rect key="frame" x="8" y="314" width="360" height="1"/>
+                                <rect key="frame" x="8" y="320" width="360" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="HVV-Y0-Isg"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QC4-VY-C5J">
-                                <rect key="frame" x="8" y="276" width="39" height="30"/>
-                                <state key="normal" title="Reply"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QC4-VY-C5J">
+                                <rect key="frame" x="8" y="276" width="32" height="36"/>
+                                <state key="normal" image="reply"/>
                                 <connections>
                                     <action selector="onReply:" destination="Px3-H5-T1L" eventType="touchUpInside" id="aNb-oq-s64"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RKP-7r-1W5">
-                                <rect key="frame" x="159" y="276" width="56" height="30"/>
-                                <state key="normal" title="Retweet"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RKP-7r-1W5">
+                                <rect key="frame" x="169" y="276" width="37" height="36"/>
+                                <state key="normal" image="retweet"/>
                                 <connections>
                                     <action selector="onRetweet:" destination="Px3-H5-T1L" eventType="touchUpInside" id="EtJ-em-81e"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dks-C3-eLf">
-                                <rect key="frame" x="289" y="276" width="62" height="30"/>
-                                <state key="normal" title="Favorites"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dks-C3-eLf">
+                                <rect key="frame" x="324" y="276" width="27" height="36"/>
+                                <state key="normal" image="like"/>
                                 <connections>
                                     <action selector="onFavorite:" destination="Px3-H5-T1L" eventType="touchUpInside" id="8Kt-Fb-gOn"/>
                                 </connections>
@@ -480,4 +484,10 @@
             <point key="canvasLocation" x="2374" y="770"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ButtonTwitterNormal" width="290" height="62"/>
+        <image name="like" width="27" height="36"/>
+        <image name="reply" width="32" height="36"/>
+        <image name="retweet" width="37" height="36"/>
+    </resources>
 </document>

@@ -42,6 +42,7 @@ class TweetDetailsViewController: UIViewController {
 
                 // Update tweet's data
                 self.tweet = tweet
+                sender.setImage(UIImage(named: "retweetOn"), for: UIControlState.normal)
                 
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
