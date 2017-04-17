@@ -11,20 +11,39 @@ import UIKit
 class Tweet: NSObject {
     
     var profileImageURL: URL? {
-        guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
-            return nil
+        if let retweetedStatus = dictionary.value(forKey: "retweeted_status") as? NSDictionary {
+            guard let user = retweetedStatus["user"] as? NSDictionary else {
+                return nil
+            }
+            guard let profileImageStringURL = user["profile_image_url"] as? String else {
+                return nil
+            }
+            return URL(string: profileImageStringURL)
         }
-        guard let profileImageStringURL = user["profile_image_url"] as? String else {
-            return nil
+        else {
+            guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
+                return nil
+            }
+            guard let profileImageStringURL = user["profile_image_url"] as? String else {
+                return nil
+            }
+            return URL(string: profileImageStringURL)
         }
-        return URL(string: profileImageStringURL)
     }
     
     var username: String? {
-        guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
-            return nil
+        if let retweetedStatus = dictionary.value(forKey: "retweeted_status") as? NSDictionary {
+            guard let user = retweetedStatus["user"] as? NSDictionary else {
+                return nil
+            }
+            return user["name"] as? String
         }
-        return user["name"] as? String
+        else {
+            guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
+                return nil
+            }
+            return user["name"] as? String
+        }
     }
     
     var text: String? {
@@ -45,14 +64,22 @@ class Tweet: NSObject {
     }
     
     var favoritesCount: Int {
-        return (dictionary["favorite_count"] as? Int) ?? 0
+        return (dictionary["favourites_count"] as? Int) ?? 0
     }
     
     var screenName: String? {
-        guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
-            return nil
+        if let retweetedStatus = dictionary.value(forKey: "retweeted_status") as? NSDictionary {
+            guard let user = retweetedStatus["user"] as? NSDictionary else {
+                return nil
+            }
+            return user["screen_name"] as? String
         }
-        return user["screen_name"] as? String
+        else {
+            guard let user = dictionary.value(forKeyPath: "user") as? NSDictionary else {
+                return nil
+            }
+            return user["screen_name"] as? String
+        }        
     }
     
     var retweetedBy: String? {    
