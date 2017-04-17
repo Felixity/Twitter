@@ -30,6 +30,7 @@ class TweetDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         updateUI()
+        customizeNavigationBar()
     }
 
     @IBAction func onReply(_ sender: UIButton) {
@@ -90,6 +91,17 @@ class TweetDetailsViewController: UIViewController {
             
             retweetsCountLabel.text = "\(tweet.retweetCount)"
             favoritesCountLabel.text = "\(tweet.favoritesCount)"
+        }
+    }
+    
+    private func customizeNavigationBar() {
+        navigationController?.navigationBar.barTintColor = UIColor(red: 64/255, green: 153/255, blue: 255/255, alpha: 1)
+        
+        if let navigationBar = navigationController?.navigationBar {
+            navigationBar.tintColor = .white
+            
+            let attributeColor = UIColor.white
+            navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: attributeColor]
         }
     }
 }

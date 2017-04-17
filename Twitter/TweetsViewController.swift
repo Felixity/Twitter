@@ -14,6 +14,9 @@ class TweetsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var isMoreDataLoading = false
+    var loadingMoreView: InfiniteScrollActivityView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,13 +28,11 @@ class TweetsViewController: UIViewController {
         tableView.estimatedRowHeight = 150
         
         setupRefreshControl()
+        customizeNavigationBar()
         
-        TwitterClient.sharedInstance?.homeTimeLine(success: { (tweetsResponse: [Tweet]) in
-            self.tweets = tweetsResponse
-            self.tableView.reloadData()
-        }, failure: { (error: Error) in
-            print(error.localizedDescription)
-        })
+        setupLoadingIndicator()
+
+        loadData()
     }
     
     @IBAction func onLogout(_ sender: UIBarButtonItem) {
@@ -49,7 +50,7 @@ class TweetsViewController: UIViewController {
     }
     
     @objc private func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        TwitterClient.sharedInstance?.homeTimeLine(success: { (tweetsResponse: [Tweet]) in
+        TwitterClient.sharedInstance?.homeTimeLine(numberOfRecordsToRetrieve: nil, lastRecordRetrievedID: nil , success: { (tweetsResponse: [Tweet]) in
             
             self.tweets = tweetsResponse
             self.tableView.reloadData()
@@ -83,6 +84,57 @@ class TweetsViewController: UIViewController {
     @IBAction func onReplyUnwindToTweetsViewController(segue: UIStoryboardSegue) {
     }
     
+    func loadData() {
+        
+        let lastTweetID: NSNumber? = tweets.last?.id != nil ? (tweets.last?.id)! : nil
+        
+        TwitterClient.sharedInstance?.homeTimeLine(numberOfRecordsToRetrieve: 20, lastRecordRetrievedID: lastTweetID, success: { (tweetsResponse: [Tweet]) in
+            
+            // Update loading flag
+            self.isMoreDataLoading = false
+
+            // Stop the loading indicator
+            self.loadingMoreView?.stopAnimating()
+            
+            // Update the tweets collection
+            self.tweets = self.tweets + tweetsResponse
+            
+            self.tableView.reloadData()
+            
+        }, failure: { (error: Error) in
+            print(error.localizedDescription)
+        })
+    }
+    
+    private func customizeNavigationBar() {
+        navigationController?.navigationBar.barTintColor = UIColor(red: 64/255, green: 153/255, blue: 255/255, alpha: 1)
+        
+        if let navigationBar = navigationController?.navigationBar {
+            navigationBar.tintColor = .white
+            
+            let attributeColor = UIColor.white
+            navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: attributeColor]
+        }
+    }
+    
+    func getIndicatorFrame() -> CGRect {
+        let indicatorOrigin = CGPoint(x: 0, y: tableView.contentSize.height)
+        let indicatorSize = CGSize(width: tableView.contentSize.width, height: InfiniteScrollActivityView.defaultHeight)
+        return CGRect(origin: indicatorOrigin, size: indicatorSize)
+    }
+    
+    private func setupLoadingIndicator() {
+        let frame = getIndicatorFrame()
+        
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView?.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
+    }
+    
 }
 
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -107,5 +159,29 @@ extension TweetsViewController: ComposeTweetViewControllerDelegate {
         // The new posted tweet must be insterted in the first position, so that it is visible in the table view, on top of the old tweets
         tweets.insert(tweet, at: 0)
         tableView.reloadData()
+    }
+}
+
+extension TweetsViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !isMoreDataLoading {
+            
+            // Calculate the position of one screen lenght before the bottom of the results
+            let scollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scollViewContentHeight - tableView.bounds.size.height
+            
+            // When user has scrolled past the threshold, start requesting
+            if scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging {
+                
+                isMoreDataLoading = true
+                
+                // Update position of LoadingMoreView, and start loading indicator
+                loadingMoreView?.frame = getIndicatorFrame()
+                loadingMoreView?.startAnimating()
+                
+                // Load more results
+                loadData()
+            }
+        }
     }
 }

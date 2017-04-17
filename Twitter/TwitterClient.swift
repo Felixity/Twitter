@@ -98,11 +98,24 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func homeTimeLine(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
-        get(homeTimeLineEndpoint, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+    func homeTimeLine(numberOfRecordsToRetrieve count: Int?, lastRecordRetrievedID id: NSNumber?, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        var param: [String: AnyObject]? = [:]
+        
+        if let count = count {
+            param?["count"] = count as AnyObject
+        }
+        
+        if let id = id {
+            param?["max_id"] = id as AnyObject
+        }
+        
+        get(homeTimeLineEndpoint, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
             
-            let tweets = Tweet.tweetsWithArray(dictionaries: response as! [NSDictionary])
-            success(tweets)
+            if let response = response as? [NSDictionary]
+            {
+                let tweets = Tweet.tweetsWithArray(dictionaries: response)
+                success(tweets)
+            }
             
         }) { (task: URLSessionDataTask?, error: Error) in
             failure(error)
