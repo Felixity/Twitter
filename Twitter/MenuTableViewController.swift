@@ -39,7 +39,7 @@ class MenuTableViewController: UIViewController {
         viewControllers.append(mentionsNavigationController)
         
         // setup the screen displayed after launching
-        hamburgerViewController.menuViewController = timelineNavigationController
+        hamburgerViewController.contentViewController = timelineNavigationController
     }
 
     override func didReceiveMemoryWarning() {
