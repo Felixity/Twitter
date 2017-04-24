@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GGk-pQ-QND">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -37,7 +37,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="GGk-pQ-QND" kind="modal" identifier="loginSegue" id="Hfk-hm-fDR"/>
+                        <segue destination="GGk-pQ-QND" kind="modal" identifier="loginSegue" id="8Zg-kh-W1V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -251,7 +251,7 @@
         <!--Hamburger View Controller-->
         <scene sceneID="oPa-N7-xec">
             <objects>
-                <viewController id="GGk-pQ-QND" customClass="HamburgerViewController" customModule="Twitter" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HamburgerMenuViewController" id="GGk-pQ-QND" customClass="HamburgerViewController" customModule="Twitter" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1hj-nK-43t"/>
                         <viewControllerLayoutGuide type="bottom" id="jBm-fO-nGA"/>
@@ -298,7 +298,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="33" y="-1447"/>
+            <point key="canvasLocation" x="33" y="-1484"/>
         </scene>
         <!--Menu Table View Controller-->
         <scene sceneID="8H0-wE-oc6">

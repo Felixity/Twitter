@@ -18,24 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
+
         if User.currentUser != nil {
-            let hamburgerViewController = window?.rootViewController as! HamburgerViewController
-            let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuTableViewController
-            
-            menuViewController.hamburgerViewController = hamburgerViewController
-            hamburgerViewController.menuViewController = menuViewController
-            window?.rootViewController = hamburgerViewController
-            
-//            let vc = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
-//            window?.rootViewController = vc
+            goToHamburgerMenu()
         }
-        else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "LoginScreen")
-            window?.rootViewController = vc
-            print("There is no current user!")
-        }
-        
+    
         NotificationCenter.default.addObserver(forName: NSNotification.Name(User.didLogOutNotification), object: nil, queue: OperationQueue.main) { (Notification) in
             
             let vc = storyboard.instantiateInitialViewController()
@@ -45,6 +32,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func goToHamburgerMenu()
+    {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let hamburgerViewController = storyboard.instantiateViewController(withIdentifier: "HamburgerMenuViewController") as! HamburgerViewController 
+        window?.rootViewController = hamburgerViewController
+        let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuTableViewController
+        menuViewController.hamburgerViewController = hamburgerViewController
+        hamburgerViewController.menuViewController = menuViewController
+        
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
