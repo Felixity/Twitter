@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            window?.rootViewController = vc
         }
         else {
+            let vc = storyboard.instantiateViewController(withIdentifier: "LoginScreen")
+            window?.rootViewController = vc
             print("There is no current user!")
         }
         
