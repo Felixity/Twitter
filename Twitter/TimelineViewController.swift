@@ -1,5 +1,5 @@
 //
-//  TweetsViewController.swift
+//  TimelineViewController.swift
 //  Twitter
 //
 //  Created by Laura on 4/12/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController {
+class TimelineViewController: UIViewController {
 
     var tweets: [Tweet] = []
     
@@ -78,10 +78,10 @@ class TweetsViewController: UIViewController {
         }
     }
     
-    @IBAction func onBackUnwindToTweetsViewController(segue: UIStoryboardSegue) {
+    @IBAction func onBackUnwindToTimelineViewController(segue: UIStoryboardSegue) {
     }
     
-    @IBAction func onReplyUnwindToTweetsViewController(segue: UIStoryboardSegue) {
+    @IBAction func onReplyUnwindToTimelineViewController(segue: UIStoryboardSegue) {
     }
     
     func loadData() {
@@ -137,7 +137,7 @@ class TweetsViewController: UIViewController {
     
 }
 
-extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
+extension TimelineViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
@@ -154,7 +154,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension TweetsViewController: ComposeTweetViewControllerDelegate {
+extension TimelineViewController: ComposeTweetViewControllerDelegate {
     func composeTweetViewController(composeTweetViewController: ComposeTweetViewController, didUpdateTweets tweet: Tweet) {
         // The new posted tweet must be insterted in the first position, so that it is visible in the table view, on top of the old tweets
         tweets.insert(tweet, at: 0)
@@ -162,7 +162,7 @@ extension TweetsViewController: ComposeTweetViewControllerDelegate {
     }
 }
 
-extension TweetsViewController: UIScrollViewDelegate {
+extension TimelineViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !isMoreDataLoading {
             

@@ -16,11 +16,15 @@
 		D306D1171E9DB8620013DC64 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D306D1161E9DB8620013DC64 /* User.swift */; };
 		D306D1191E9DB86F0013DC64 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D306D1181E9DB86F0013DC64 /* Tweet.swift */; };
 		D306D11B1E9DF5920013DC64 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D306D11A1E9DF5920013DC64 /* LoginViewController.swift */; };
-		D353352C1E9EF0330033F398 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353352B1E9EF0330033F398 /* TweetsViewController.swift */; };
+		D353352C1E9EF0330033F398 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353352B1E9EF0330033F398 /* TimelineViewController.swift */; };
 		D353352E1E9EF4850033F398 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353352D1E9EF4850033F398 /* TweetTableViewCell.swift */; };
 		D3A9F28B1EA06CA300655E5D /* ComposeTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9F28A1EA06CA300655E5D /* ComposeTweetViewController.swift */; };
 		D3A9F28D1EA17CF000655E5D /* TweetDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9F28C1EA17CF000655E5D /* TweetDetailsViewController.swift */; };
 		D3A9F28F1EA1D29200655E5D /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9F28E1EA1D29200655E5D /* InfiniteScrollActivityView.swift */; };
+		D3A9F2B11EAA946200655E5D /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9F2B01EAA946200655E5D /* MenuTableViewController.swift */; };
+		D3A9F2B31EAAA05A00655E5D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9F2B21EAAA05A00655E5D /* ProfileViewController.swift */; };
+		D3A9F2B51EAAA08A00655E5D /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9F2B41EAAA08A00655E5D /* MentionsViewController.swift */; };
+		D3A9F2B71EAAA48F00655E5D /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9F2B61EAAA48F00655E5D /* HamburgerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,11 +41,15 @@
 		D306D1161E9DB8620013DC64 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D306D1181E9DB86F0013DC64 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		D306D11A1E9DF5920013DC64 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		D353352B1E9EF0330033F398 /* TweetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetsViewController.swift; sourceTree = "<group>"; };
+		D353352B1E9EF0330033F398 /* TimelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		D353352D1E9EF4850033F398 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		D3A9F28A1EA06CA300655E5D /* ComposeTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeTweetViewController.swift; sourceTree = "<group>"; };
 		D3A9F28C1EA17CF000655E5D /* TweetDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailsViewController.swift; sourceTree = "<group>"; };
 		D3A9F28E1EA1D29200655E5D /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
+		D3A9F2B01EAA946200655E5D /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		D3A9F2B21EAAA05A00655E5D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		D3A9F2B41EAAA08A00655E5D /* MentionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
+		D3A9F2B61EAAA48F00655E5D /* HamburgerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,10 +135,14 @@
 		D35335291E9EDD250033F398 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D353352B1E9EF0330033F398 /* TweetsViewController.swift */,
+				D353352B1E9EF0330033F398 /* TimelineViewController.swift */,
 				D306D11A1E9DF5920013DC64 /* LoginViewController.swift */,
 				D3A9F28A1EA06CA300655E5D /* ComposeTweetViewController.swift */,
 				D3A9F28C1EA17CF000655E5D /* TweetDetailsViewController.swift */,
+				D3A9F2B01EAA946200655E5D /* MenuTableViewController.swift */,
+				D3A9F2B41EAAA08A00655E5D /* MentionsViewController.swift */,
+				D3A9F2B21EAAA05A00655E5D /* ProfileViewController.swift */,
+				D3A9F2B61EAAA48F00655E5D /* HamburgerViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -270,9 +282,13 @@
 			files = (
 				D3A9F28F1EA1D29200655E5D /* InfiniteScrollActivityView.swift in Sources */,
 				D306D11B1E9DF5920013DC64 /* LoginViewController.swift in Sources */,
+				D3A9F2B11EAA946200655E5D /* MenuTableViewController.swift in Sources */,
 				D306D1171E9DB8620013DC64 /* User.swift in Sources */,
 				D3A9F28B1EA06CA300655E5D /* ComposeTweetViewController.swift in Sources */,
-				D353352C1E9EF0330033F398 /* TweetsViewController.swift in Sources */,
+				D3A9F2B51EAAA08A00655E5D /* MentionsViewController.swift in Sources */,
+				D3A9F2B71EAAA48F00655E5D /* HamburgerViewController.swift in Sources */,
+				D353352C1E9EF0330033F398 /* TimelineViewController.swift in Sources */,
+				D3A9F2B31EAAA05A00655E5D /* ProfileViewController.swift in Sources */,
 				D3A9F28D1EA17CF000655E5D /* TweetDetailsViewController.swift in Sources */,
 				D306D1191E9DB86F0013DC64 /* Tweet.swift in Sources */,
 				D306D1141E9D7FC60013DC64 /* TwitterClient.swift in Sources */,
