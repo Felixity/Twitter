@@ -16,6 +16,7 @@ class TimelineViewController: UIViewController {
     
     var isMoreDataLoading = false
     var loadingMoreView: InfiniteScrollActivityView?
+    var isMentionsView = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +33,21 @@ class TimelineViewController: UIViewController {
         
         setupLoadingIndicator()
 
-        loadData()
+        if isMentionsView {
+            navigationItem.title = "Mentions"
+            TwitterClient.sharedInstance?.getMentionList(success: { (tweetsResponse: [Tweet]) in
+                
+                self.tweets = tweetsResponse
+                self.tableView.reloadData()
+                
+            }, failure: { (error: Error) in
+    
+                print(error.localizedDescription)
+            })
+        }
+        else {
+            loadData()
+        }
     }
     
     @IBAction func onLogout(_ sender: UIBarButtonItem) {

@@ -27,6 +27,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     private let markAsFavoriteEndpoint = "1.1/favorites/create.json"
     private let getUserProfileEndpoint = "1.1/users/show.json"
     private let getUserTimelineEndpoint = "1.1/statuses/user_timeline.json"
+    private let mentionsEndpoint = "1.1/statuses/mentions_timeline.json"
     
     static let sharedInstance = TwitterClient(baseURL: URL(string: baseStringURL), consumerKey: clientID, consumerSecret: clientSecret)
    
@@ -178,6 +179,20 @@ class TwitterClient: BDBOAuth1SessionManager {
     func getUserTimeline(withScreenName screenName: String, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         let param: [String: Any] = ["screen_name": screenName]
         get(getUserTimelineEndpoint, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+            if let response = response as? [NSDictionary]
+            {
+                let tweets = Tweet.tweetsWithArray(dictionaries: response)
+                success(tweets)
+            }
+            
+        }) { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        }
+    }
+    
+    func getMentionList(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        get(mentionsEndpoint, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
             
             if let response = response as? [NSDictionary]
             {
