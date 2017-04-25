@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol TweetTableViewCellProtocol {
+
+    func tweetTableViewCellProtocol(sender: TweetTableViewCell, screenName: String)
+}
+
 class TweetTableViewCell: UITableViewCell {
 
     
@@ -20,6 +25,23 @@ class TweetTableViewCell: UITableViewCell {
         didSet {
             updateUI()
         }
+    }
+    
+    var delegate: TweetTableViewCellProtocol?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
+        tapGesture.numberOfTapsRequired = 1
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    func didTap(sender: UITapGestureRecognizer) {
+        let location = sender.location(in: profileImageView)
+        // User tapped at the point above. Do something with that if you want.
+        delegate?.tweetTableViewCellProtocol(sender: self, screenName: (tweet?.screenName)!)
     }
     
     func updateUI() {

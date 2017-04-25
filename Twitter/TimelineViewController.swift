@@ -146,6 +146,7 @@ extension TimelineViewController: UITableViewDataSource, UITableViewDelegate {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetTableViewCell
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
@@ -183,5 +184,15 @@ extension TimelineViewController: UIScrollViewDelegate {
                 loadData()
             }
         }
+    }
+}
+
+extension TimelineViewController: TweetTableViewCellProtocol {
+    func tweetTableViewCellProtocol(sender: TweetTableViewCell, screenName: String) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let profileViewController = storyboard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        profileViewController.screenName = screenName
+        navigationController?.pushViewController(profileViewController, animated: false)
     }
 }

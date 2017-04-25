@@ -35,7 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func goToHamburgerMenu()
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let hamburgerViewController = storyboard.instantiateViewController(withIdentifier: "HamburgerMenuViewController") as! HamburgerViewController 
+        let hamburgerViewController = storyboard.instantiateViewController(withIdentifier: "HamburgerMenuViewController") as! HamburgerViewController
+        // Set the root view controller of the app's window
         window?.rootViewController = hamburgerViewController
         let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuTableViewController
         menuViewController.hamburgerViewController = hamburgerViewController

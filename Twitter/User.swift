@@ -32,6 +32,26 @@ class User: NSObject {
         return dictionary["description"] as? String
     }
     
+    var coverURL: URL? {
+        guard let coverImageStringURL = dictionary["profile_banner_url"] as? String else {
+            return nil
+        }
+        print("coverImageStringURL: \(coverImageStringURL)")
+        return URL(string: coverImageStringURL)
+    }
+    
+    var followingCount: Int {
+        return (dictionary["friends_count"] as? Int) ?? 0
+    }
+    
+    var tweetCount: Int {
+        return (dictionary["statuses_count"] as? Int) ?? 0
+    }
+    
+    var followersCount: Int {
+        return (dictionary["followers_count"] as? Int) ?? 0
+    }
+    
     private let dictionary: NSDictionary
     
     init(dictionary: NSDictionary) {

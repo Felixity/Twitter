@@ -25,6 +25,8 @@ class TwitterClient: BDBOAuth1SessionManager {
     private let createNewTweetEndpoint = "1.1/statuses/update.json"
     private let retweetEndpoint = "1.1/statuses/retweet/:id.json"
     private let markAsFavoriteEndpoint = "1.1/favorites/create.json"
+    private let getUserProfileEndpoint = "1.1/users/show.json"
+    private let getUserTimelineEndpoint = "1.1/statuses/user_timeline.json"
     
     static let sharedInstance = TwitterClient(baseURL: URL(string: baseStringURL), consumerKey: clientID, consumerSecret: clientSecret)
    
@@ -155,6 +157,33 @@ class TwitterClient: BDBOAuth1SessionManager {
             
             let tweet = Tweet(dictionary: response as! NSDictionary)
             success(tweet)
+            
+        }) { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        }
+    }
+    
+    func getUserProfile(withScreenName screenName: String, success: @escaping (User) -> (), failure: @escaping (Error) -> ()) {
+        let param: [String: Any] = ["screen_name": screenName]
+        get(getUserProfileEndpoint, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+            let user = User(dictionary: response as! NSDictionary)
+            success(user)
+            
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        })
+    }
+    
+    func getUserTimeline(withScreenName screenName: String, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        let param: [String: Any] = ["screen_name": screenName]
+        get(getUserTimelineEndpoint, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+            if let response = response as? [NSDictionary]
+            {
+                let tweets = Tweet.tweetsWithArray(dictionaries: response)
+                success(tweets)
+            }
             
         }) { (task: URLSessionDataTask?, error: Error) in
             failure(error)
